@@ -26,7 +26,6 @@ pipeline {
             steps {
                 // Build Docker image from the Dockerfile in the project root
                 script {
-                    sh 'cd /home/ubuntu/Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/target'
                     sh 'sudo docker build -f java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile -t $DOCKER_IMAGE:$DOCKER_TAG .'
                 }
             }
