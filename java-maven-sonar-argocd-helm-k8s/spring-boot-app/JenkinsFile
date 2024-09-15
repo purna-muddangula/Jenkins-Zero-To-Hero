@@ -18,7 +18,10 @@ pipeline {
         
         stage('Build') {
             steps     {
-                sh 'mvn clean install'
+                sh 'ls -la'
+                sh 'pwd'
+                sh 'whoami'
+                sh 'mvn clean install
             }
         }
 
