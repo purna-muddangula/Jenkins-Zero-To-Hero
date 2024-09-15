@@ -17,20 +17,17 @@ pipeline {
         }
         
         stage('Build') {
-            steps     {
-                sh 'ls -la'
-                sh 'pwd'
-                sh 'whoami'
-                sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app'
-                sh 'mvn clean install'
+            steps {
+                dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+                    sh 'mvn clean install'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                // Build Docker image from the Dockerfile in the project root
-                script {
-                    sh 'sudo docker build -f java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile -t $DOCKER_IMAGE:$DOCKER_TAG .'
+                dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+                    sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
                 }
             }
         }
