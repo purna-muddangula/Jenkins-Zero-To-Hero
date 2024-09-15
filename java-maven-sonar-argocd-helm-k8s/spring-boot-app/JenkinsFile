@@ -21,6 +21,7 @@ pipeline {
                 sh 'ls -la'
                 sh 'pwd'
                 sh 'whoami'
+                sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-appspring-boot-app'
                 sh 'mvn clean install'
             }
         }
