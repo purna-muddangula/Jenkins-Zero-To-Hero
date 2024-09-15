@@ -36,8 +36,8 @@ pipeline {
             steps {
                 script {
                     // Login to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'Useraname', passwordVariable: 'Passowrd')]) {
-                        sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'Useraname', passwordVariable: 'Password')]) {
+                        sh 'docker login -u $Username -p $Password'
                     }
                     
                     // Tag and Push the Docker image to Docker Hub
