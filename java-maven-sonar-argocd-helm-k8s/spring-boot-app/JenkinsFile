@@ -62,7 +62,7 @@ pipeline {
                         sh """
                             ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 \
                             "sed -i 's|${DOCKER_IMAGE}:.*|${DOCKER_IMAGE}:${DOCKER_TAG}|' /home/ubuntu/springboot-app/docker-compose.yml" \
-                            "lsc-lrta" \
+                            "ls -lrta" \
                             "pwd" \
                             "docker-compose up"
                         """
