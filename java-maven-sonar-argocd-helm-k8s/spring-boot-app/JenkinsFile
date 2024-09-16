@@ -68,7 +68,7 @@ pipeline {
                             ls -lrta /home/ubuntu/springboot-app
                             
                             # Restart the Docker Compose services
-                            docker-compose -f /home/ubuntu/springboot-app/docker-compose.yml up -d
+                            docker compose -f /home/ubuntu/springboot-app/docker-compose.yml up -d
                             EOF
                         """
                     }
