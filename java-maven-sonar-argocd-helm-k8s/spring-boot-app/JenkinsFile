@@ -57,7 +57,7 @@ pipeline {
         stage('Update Docker Compose') {
             steps {
                 script {
-                    sh "ssh ubuntu@13.233.42.161"
+                    sh "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161"
                     sh "sed -i 's|${DOCKER_IMAGE}:.*|${DOCKER_IMAGE}:${DOCKER_TAG}|' docker-compose.yml"
                 }
             }
