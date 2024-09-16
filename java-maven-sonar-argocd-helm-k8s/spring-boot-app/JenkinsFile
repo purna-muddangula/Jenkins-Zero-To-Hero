@@ -57,14 +57,13 @@ pipeline {
         stage('Update Docker Compose') {
                 steps {
                     script {
-                        sh '''
-                            ssh -i **** -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 << EOF
-                            sed -i 's|purna577/springboot-app:[^ ]*|purna577/springboot-app:47|' /home/ubuntu/springboot-app/docker-compose.yml
-                            ls -lrta /home/ubuntu/springboot-app
-                            pwd
-                            docker-compose -f /home/ubuntu/springboot-app/docker-compose.yml up -d
-                            EOF
-                        '''
+                        sh """
+                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 \
+                            "sed -i 's|${DOCKER_IMAGE}:.*|${DOCKER_IMAGE}:${DOCKER_TAG}|' /home/ubuntu/springboot-app/docker-compose.yml" \
+                            "lsc-lrta" \
+                            "pwd" \
+                            "docker-compose up"
+                        """
                     }
                 }
             }
