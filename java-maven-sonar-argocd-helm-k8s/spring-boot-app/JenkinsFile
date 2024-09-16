@@ -59,8 +59,8 @@ pipeline {
                 script {
                     // Use the SSH credentials configured in Jenkins
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-credentials-id', keyFileVariable: 'SSH_KEY')]) {
-                        sh '''
-                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 << EOF
+                        sh """
+                            ssh -i \$SSH_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 << 'EOF'
                             # Update Docker Compose file
                             sed -i 's|purna577/springboot-app:.*|purna577/springboot-app:${DOCKER_TAG}|' /home/ubuntu/springboot-app/docker-compose.yml
                             
@@ -68,13 +68,14 @@ pipeline {
                             ls -lrta /home/ubuntu/springboot-app
                             
                             # Restart the Docker Compose services
-                            docker compose -f /home/ubuntu/springboot-app/docker-compose.yml up -d
+                            docker-compose -f /home/ubuntu/springboot-app/docker-compose.yml up -d
                             EOF
-                        '''
+                        """
                     }
                 }
             }
         }
+
 
 
 
