@@ -57,17 +57,25 @@ pipeline {
         stage('Update Docker Compose') {
             steps {
                 script {
-            // Use the SSH credentials configured in Jenkins (assuming 'ssh-credentials-id' is the ID of your SSH credential in Jenkins)
+                    // Use the SSH credentials configured in Jenkins
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh-credentials-id', keyFileVariable: 'SSH_KEY')]) {
-                        sh """
-                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 \
-                            "sed -i 's|${DOCKER_IMAGE}:.*|${DOCKER_IMAGE}:${DOCKER_TAG}|' /home/ubuntu/springboot-app/docker-compose.yml" \
-                            "docker-compose -f /home/ubuntu/springboot-app/docker-compose.yml up"
-                        """
+                        sh '''
+                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@13.233.42.161 << EOF
+                            # Update Docker Compose file
+                            sed -i 's|purna577/springboot-app:.*|purna577/springboot-app:${DOCKER_TAG}|' /home/ubuntu/springboot-app/docker-compose.yml
+                            
+                            # List files to ensure the file exists and has been updated
+                            ls -lrta /home/ubuntu/springboot-app
+                            
+                            # Restart the Docker Compose services
+                            docker-compose -f /home/ubuntu/springboot-app/docker-compose.yml up -d
+                            EOF
+                        '''
+                    }
+                }
             }
         }
-    }
-}
+
 
 
     }
