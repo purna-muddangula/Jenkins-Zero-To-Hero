@@ -29,7 +29,7 @@ pipeline {
                                     -Dsonar.login=${Username} \
                                     -Dsonar.sonar.token=$Password
                                     '''
-                            }
+                         }   }
             }
           }
 
