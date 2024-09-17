@@ -25,7 +25,7 @@ pipeline {
                                 sh '''
                                     mvn sonar:sonar \
                                     -Dsonar.projectKey=springboot-app \
-                                    -Dsonar.host.url=https://3.6.126.115:9000 \
+                                    -Dsonar.host.url=http://3.6.126.115:9000 \
                                     -Dsonar.login=${Username} \
                                     -Dsonar.sonar.token=$Password
                                     '''
