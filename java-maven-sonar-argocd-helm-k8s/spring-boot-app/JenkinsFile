@@ -17,11 +17,24 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-        def mvn = tool 'Default Maven';
-        withSonarQubeEnv() {
-          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=springboot-app -Dsonar.projectName='springboot-app'"
-        }
-      }
+            steps {
+                        script {
+                            // Login to Docker Hub
+                            withCredentials([usernamePassword(credentialsId:'sonar', usernameVariable: 'Username', passwordVariable: 'Password')]) {
+                                sh 'docker login -u $Username -p $Password'
+                                sh '''
+                                    mvn sonar:sonar \
+                                    -Dsonar.projectKey=springboot-app \
+                                    -Dsonar.host.url=https://3.6.126.115:9000 \
+                                    -Dsonar.login=${Username} \
+                                    -Dsonar.sonar.token=$Password
+                                    '''
+                            }
+            }
+          }
+
+        
+                        }
         stage('Build') {
             steps {
                 dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
