@@ -26,8 +26,8 @@ pipeline {
                                     mvn sonar:sonar \
                                     -Dsonar.projectKey=springboot-app \
                                     -Dsonar.host.url=http://13.127.62.79:9000 \
-                                    -Dsonar.login=$Username \
-                                    -Dsonar.sonar.token=$Password \
+                                    -Dsonar.login=admin \
+                                    -Dsonar.sonar.token=squ_fb51c302c60c0ade3a0dfb432d3a1db202504278 \
                                     -Dsonar.es.bootstrap.checks.disable=”$SONAR_ES_BOOTSTRAP_CHECKS_DISABLE”.
                                     '''
                          }   }
