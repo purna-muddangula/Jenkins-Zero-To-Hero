@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    tools {
-        jdk 'JDK 17'  // Specify the JDK version
-    }
 
     environment {
         // Define environment variables for Docker
