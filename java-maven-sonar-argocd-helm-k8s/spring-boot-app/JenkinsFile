@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 stages {
 
     stage('Build') {
@@ -22,7 +21,7 @@ stages {
 
     stage('Deploy') {
         steps {
-            sh '''
+            sh 
             docker stop springboot-app || true
             docker rm springboot-app || true
 
@@ -30,7 +29,7 @@ stages {
             --name springboot-app \
             -p 8081:8080 \
             springboot-app:${BUILD_NUMBER}
-            '''
+            
         }
     }
 }
