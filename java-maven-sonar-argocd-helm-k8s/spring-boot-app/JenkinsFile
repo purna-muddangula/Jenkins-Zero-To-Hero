@@ -1,44 +1,40 @@
 pipeline {
-agent any
+    agent any
 
-```
-stages {
+    stages {
 
-    stage('Build') {
-        steps {
-            dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
-                sh 'mvn clean package'
+        stage('Build') {
+            steps {
+                dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
+                    sh "docker build -t springboot-app:${BUILD_NUMBER} ."
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker stop springboot-app || true'
+                sh 'docker rm springboot-app || true'
+                sh "docker run -d --name springboot-app -p 8081:8080 springboot-app:${BUILD_NUMBER}"
             }
         }
     }
 
-    stage('Docker Build') {
-        steps {
-            dir('java-maven-sonar-argocd-helm-k8s/spring-boot-app') {
-                sh "docker build -t springboot-app:${BUILD_NUMBER} ."
-            }
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
         }
-    }
 
-    stage('Deploy') {
-        steps {
-            sh 'docker stop springboot-app || true'
-            sh 'docker rm springboot-app || true'
-            sh "docker run -d --name springboot-app -p 8081:8080 springboot-app:${BUILD_NUMBER}"
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
-
-post {
-    success {
-        echo 'Pipeline executed successfully!'
-    }
-
-    failure {
-        echo 'Pipeline failed!'
-    }
-}
-```
-
-}
-
